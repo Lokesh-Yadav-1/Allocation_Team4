@@ -1,0 +1,250 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Allocation Info</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<!-- styles -->
+<link rel="stylesheet" href= {% static "assets/css/fancybox/jquery.fancybox.css" %}>
+<link href= {% static "assets/css/bootstrap.css" %} rel="stylesheet" />
+<link href= {% static "assets/css/bootstrap-theme.css" %} rel="stylesheet" />
+<link rel="stylesheet" href= {% static "assets/css/slippry.css" %}>
+<link href= {% static "assets/css/style.css" %} rel="stylesheet" />
+<link rel="stylesheet" href= {% static "assets/color/default.css" %}>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<script src= {% static "assets/js/modernizr.custom.js" %}></script>
+</head>
+<body>
+<header>
+
+
+
+<div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+  <div class="container">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">MTP Portal</a>
+    </div>
+
+	<div class="navigation">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="current"><a href="#intro">Home</a></li>
+		<li><a href="#about">About</a></li>
+		<li><a href="#works">Works</a></li>
+		<li><a href="#contact">Contact</a></li>
+      </ul></nav>
+    </div><!-- /.navbar-collapse -->
+	</div>
+
+  </div>
+</div>
+
+</header>
+
+<style type="text/css">
+ #root {
+    background-color: #fff;
+}
+
+#left_side1 {
+    float: left;
+    margin-top: 140px;
+    width:50%;
+
+}
+
+#right_side1 {
+    float:right;
+    margin-top: 140px;
+    width:50%;
+}
+.clear{clear:both;}
+
+th
+{
+    text-align: center; 
+    vertical-align: middle;
+}
+#id_description{
+    width: 80%
+}
+#id_title{
+    width: 80%
+}
+#id_fid{
+    width: 80%
+}
+#id_cgpa{
+    width: 80%
+}
+#id_count{
+    width: 80%
+}
+</style>
+
+{% load poll_extras %}
+
+    <div id="left_side1" style="padding-right: 5%">
+        {% block content %}
+        <h2 align="center">Make Entry for Allocation</h2>
+       
+
+        <form method="POST" class="post-form">{% csrf_token %}
+            <table class="table table-striped" align="center" border="1" style="text-align: center; vertical-align: middle;margin-left: 5%;margin-right: 5%">
+                 <tr>
+                <td align="center" style="width:30%"><label for="{{ form.fid.id_for_label }}"><b>Faculty ID:</b></label></td>
+                <td style="width:60%">{{ form.fid }}</td>
+                </tr>
+
+                <tr>
+                <td align="center"><label for="{{ form.title.id_for_label }}"><b>Title:</b></label></td>
+                <td>{{ form.title }}</td>
+                </tr>
+
+                <tr>
+                <td align="center"><label for="{{ form.description.id_for_label }}"><b>Description:</b></label></td>
+                <td>{{ form.description }}</td>
+                </tr>
+
+                <tr>
+                    <td align="center"><label for="{{ form.cgpa.id_for_label }}"><b>Overall CGPA:</b></label></td>
+                    <td>{{ form.cgpa }}<ul>{{form.cgpa.errors}}</ul></td>
+                    
+                </tr>
+
+                <tr>
+                    <td align="center"> <label for="{{ form.courses.id_for_label }}"><b>Courses:</b></label></td>
+                    <td >{{ form.courses }}
+                    <button type="submit" name="btnform2">Add Course</button></td>
+                   
+                </tr>
+
+                <tr>
+                <td align="center"> <label for="{{ form.count.id_for_label }}"><b>Count:</b></label></td>
+                <td>{{ form.count }}
+                </tr>
+
+                <tr align="center">
+                <td align="center" colspan="2"><button align="center"type="submit" name="btnform1" class="save btn btn-primary" style="width:50%"><b>Save</b></button></td>
+                </tr>
+                <!-- {{ form.as_table }} -->
+            </table>
+            
+          
+        </form>
+        {% endblock %}
+
+    </div>
+
+    <div id="right_side1" style="padding-right:5%">
+            {% block content1 %}
+            <h2 align="center"><u>Entries</u></h2>
+            <table class="table table-striped" align="center" border="1" style="text-align: center; vertical-align: middle;">
+           <b> <tr>
+              <th style="width:10%">Prof ID</th>
+              <th style="width:20%">Title</th>
+              <th style="width:40%">Description</th>
+              <th>Overall CGPA</th>
+              <th>Number of Students</th>
+              <th>Courses Required</th>
+            </tr>
+          </b>
+            {% for entry in entries %}
+                <tr>
+                  <td>{{ entry.fid }}</td>
+                  <td>{{ entry.title }}</td>
+              <td>{{ entry.desc }}</td>
+              <td>{{ entry.grade }}</td>
+              <td>{{ entry.count }}</td>
+            
+              <td><ul>
+              {% for each in entry.courses  %}
+              <li>{{ each }} </li>
+              {%endfor%}
+              </ul></td>
+            </tr>				
+            {% endfor %}
+          </table>	        	
+          {% endblock content1 %}
+
+    </div>
+
+<!-- <footer>
+<div class="verybottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="aligncenter">
+				</div>				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="aligncenter">
+					<p>
+					</p>           
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</footer> -->
+<a href="#" class="scrollup"><i class="fa fa-angle-up fa-2x"></i></a>
+<!-- javascript -->
+<script src= {% static "assets/js/jquery-1.9.1.min.js" %}></script>
+<script src= {% static "assets/js/jquery.easing.js" %}></script>
+<script src= {% static "assets/js/classie.js" %}></script>
+<script src= {% static "assets/js/bootstrap.js" %}></script>
+<script src= {% static "assets/js/slippry.min.js" %}></script>
+<script src= {% static "assets/js/nagging-menu.js" %}></script>
+<script src= {% static "assets/js/jquery.nav.js" %}></script>
+<script src="assets/js/jquery.scrollTo.js"></script>
+<script src="assets/js/jquery.fancybox.pack.js"></script> 
+<script src="assets/js/jquery.fancybox-media.js"></script> 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
+<script src="assets/js/masonry.pkgd.min.js"></script>
+<script src="assets/js/imagesloaded.js"></script>
+<script src="assets/js/jquery.nicescroll.min.js"></script>
+<script src="assets/js/validate.js"></script>	
+<script src="assets/js/AnimOnScroll.js"></script>
+    <script>
+        new AnimOnScroll( document.getElementById( 'grid' ), {
+            minDuration : 0.4,
+            maxDuration : 0.7,
+            viewportFactor : 0.2
+        } );
+    </script>
+<script>
+	$(document).ready(function(){
+	  $('#slippry-slider').slippry(
+		defaults = {
+			transition: 'vertical',
+			useCSS: true,
+			speed: 5000,
+			pause: 3000,
+			initSingle: false,
+			auto: true,
+			preload: 'visible',
+			pager: false,		
+		} 
+	  
+	  )
+	});
+</script>
+
+<script src="assets/js/custom.js"></script>
+</body>
+</html>
