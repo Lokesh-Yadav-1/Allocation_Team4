@@ -1,4 +1,6 @@
 # Allocation_Team4
+<b>Implemented Gale–Shapley algorithm to map Projects to deserving Students</b>
+
 Install Django
 
 $ sudo apt-get install python-django
